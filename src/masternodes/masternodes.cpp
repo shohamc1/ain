@@ -32,8 +32,7 @@ std::unique_ptr<CStorageLevelDB> pcustomcsDB;
 int GetMnActivationDelay(int height) {
     // Restore previous activation delay on testnet after FC
     if (height < Params().GetConsensus().EunosHeight ||
-       (IsTestNetwork() &&
-       height >= Params().GetConsensus().FortCanningHeight)) {
+        (IsTestNetwork() && height >= Params().GetConsensus().FortCanningHeight)) {
         return Params().GetConsensus().mn.activationDelay;
     }
 
@@ -43,8 +42,7 @@ int GetMnActivationDelay(int height) {
 int GetMnResignDelay(int height) {
     // Restore previous activation delay on testnet after FC
     if (height < Params().GetConsensus().EunosHeight ||
-       (IsTestNetwork() &&
-       height >= Params().GetConsensus().FortCanningHeight)) {
+        (IsTestNetwork() && height >= Params().GetConsensus().FortCanningHeight)) {
         return Params().GetConsensus().mn.resignDelay;
     }
 
@@ -770,8 +768,8 @@ CCustomCSView::CCustomCSView(CCustomCSView &other,
                              CAccountHistoryStorage *historyView,
                              CBurnHistoryStorage *burnView,
                              CVaultHistoryStorage *vaultView)
-        : CStorageView(new CFlushableStorageKV(other.DB())),
-          writers(historyView, burnView, vaultView) {
+    : CStorageView(new CFlushableStorageKV(other.DB())),
+      writers(historyView, burnView, vaultView) {
     CheckPrefixes();
 }
 
