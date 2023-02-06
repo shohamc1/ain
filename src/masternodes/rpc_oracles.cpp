@@ -782,7 +782,7 @@ UniValue listlatestrawprices(const JSONRPCRequest &request) {
                 },
             }, },
         RPCResult{"\"json\"                  (string) Array of json objects containing full information about token "
-          "prices\n"},
+                  "prices\n"},
         RPCExamples{
           HelpExampleCli("listlatestrawprices", R"(listlatestrawprices '{"currency": "USD", "token": "BTC"}')") +
             HelpExampleCli(

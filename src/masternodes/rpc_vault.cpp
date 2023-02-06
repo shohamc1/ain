@@ -513,7 +513,7 @@ UniValue listvaults(const JSONRPCRequest &request) {
           HelpExampleCli("listvaults", "") + HelpExampleCli("listvaults", "'{\"loanSchemeId\": \"LOAN1502\"}'") +
             HelpExampleCli("listvaults",
           "'{\"loanSchemeId\": \"LOAN1502\"}' "
-          "'{\"start\":\"3ef9fd5bd1d0ce94751e6286710051361e8ef8fac43cca9cb22397bf0d17e013\", "
+                           "'{\"start\":\"3ef9fd5bd1d0ce94751e6286710051361e8ef8fac43cca9cb22397bf0d17e013\", "
                            "\"including_start\": true, "
                            "\"limit\":100}'") +
             HelpExampleCli("listvaults",
@@ -821,7 +821,7 @@ UniValue deposittovault(const JSONRPCRequest &request) {
         RPCExamples{
                                                     HelpExampleCli("deposittovault",
                                                     "84b22eee1964768304e624c416f29a91d78a01dc5e8e12db26bdac0670c67bb2i "
-                                                    "mwSDMvn1Hoc8DsoB7AkLv7nxdrf5Ja4jsF 1@DFI") +
+                           "mwSDMvn1Hoc8DsoB7AkLv7nxdrf5Ja4jsF 1@DFI") +
             HelpExampleRpc(
                 "deposittovault", R"("84b22eee1964768304e624c416f29a91d78a01dc5e8e12db26bdac0670c67bb2i", "mwSDMvn1Hoc8DsoB7AkLv7nxdrf5Ja4jsF", "1@DFI")")},
     }
@@ -918,7 +918,7 @@ UniValue withdrawfromvault(const JSONRPCRequest &request) {
         RPCExamples{
                                                     HelpExampleCli("withdrawfromvault",
                                                     "84b22eee1964768304e624c416f29a91d78a01dc5e8e12db26bdac0670c67bb2i "
-                                                    "mwSDMvn1Hoc8DsoB7AkLv7nxdrf5Ja4jsF 1@DFI") +
+                           "mwSDMvn1Hoc8DsoB7AkLv7nxdrf5Ja4jsF 1@DFI") +
             HelpExampleRpc(
                 "withdrawfromvault", R"("84b22eee1964768304e624c416f29a91d78a01dc5e8e12db26bdac0670c67bb2i", "mwSDMvn1Hoc8DsoB7AkLv7nxdrf5Ja4jsF", "1@DFI")")},
     }
@@ -1023,7 +1023,7 @@ UniValue placeauctionbid(const JSONRPCRequest &request) {
         RPCExamples{
                                                     HelpExampleCli("placeauctionbid",
                                                     "84b22eee1964768304e624c416f29a91d78a01dc5e8e12db26bdac0670c67bb2 0 "
-                                                    "mwSDMvn1Hoc8DsoB7AkLv7nxdrf5Ja4jsF 100@TSLA") +
+                           "mwSDMvn1Hoc8DsoB7AkLv7nxdrf5Ja4jsF 100@TSLA") +
             HelpExampleRpc(
                 "placeauctionbid", R"("84b22eee1964768304e624c416f29a91d78a01dc5e8e12db26bdac0670c67bb2", 0, "mwSDMvn1Hoc8DsoB7AkLv7nxdrf5Ja4jsF", "1@DTSLA")")},
     }
@@ -1133,7 +1133,7 @@ UniValue listauctions(const JSONRPCRequest &request) {
           HelpExampleCli("listauctions", "") +
             HelpExampleCli(
                 "listauctions", "'{\"start\": {\"vaultId\":\"eeea650e5de30b77d17e3907204d200dfa4996e5c4d48b000ae8e70078fe7542\", "
-          "\"height\": 1000}, \"including_start\": true, "
+                "\"height\": 1000}, \"including_start\": true, "
                 "\"limit\":100}'") +
             HelpExampleRpc("listauctions", "") +
             HelpExampleRpc(
@@ -1450,10 +1450,10 @@ UniValue listvaulthistory(const JSONRPCRequest &request) {
         RPCResult{"[{},{}...]     (array) Objects with vault history information\n"},
         RPCExamples{HelpExampleCli("listvaulthistory",
           "84b22eee1964768304e624c416f29a91d78a01dc5e8e12db26bdac0670c67bb2 "
-          "'{\"maxBlockHeight\":160,\"depth\":10}'") +
+                                   "'{\"maxBlockHeight\":160,\"depth\":10}'") +
                     HelpExampleRpc("listvaulthistory",
           "84b22eee1964768304e624c416f29a91d78a01dc5e8e12db26bdac0670c67bb2, "
-          "'{\"maxBlockHeight\":160,\"depth\":10}'")},
+                                   "'{\"maxBlockHeight\":160,\"depth\":10}'")},
     }
         .Check(request);
 

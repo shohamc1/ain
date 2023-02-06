@@ -16,11 +16,11 @@
 #include <rpc/server.h>
 #include <rpc/util.h>
 
-//#ifdef ENABLE_WALLET
+// #ifdef ENABLE_WALLET
 #include <wallet/coincontrol.h>
 #include <wallet/fees.h>
 #include <wallet/rpcwallet.h>
-//#endif
+// #endif
 
 typedef enum {
     // selecting accounts without sorting

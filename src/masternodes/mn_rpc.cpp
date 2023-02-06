@@ -881,7 +881,7 @@ UniValue listgovs(const JSONRPCRequest &request) {
              "a prefix of attributes to filter with. `v0/` is assumed if not explicitly provided."},
           },
         RPCResult{"[[{id:{...}},{height:{...}},...], ...]     (array) Json array with JSON objects with variable "
-          "information\n"},
+                  "information\n"},
         RPCExamples{HelpExampleCli("listgovs", "") + HelpExampleCli("listgovs", "gov") +
                     HelpExampleCli("listgovs", "live") + HelpExampleCli("listgovs", "token/") +
                     HelpExampleCli("listgovs", "token/15") + HelpExampleRpc("listgovs", "") +
