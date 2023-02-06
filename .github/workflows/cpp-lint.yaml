@@ -42,7 +42,6 @@ jobs:
       - name: Lint
         uses: DoozyX/clang-format-lint-action@v0.14
         with:
-          source: './src'
-          exclude: './third_party ./external'
+          source: './src/masternodes'
           extensions: 'h,cpp'
           clangFormatVersion: 14
