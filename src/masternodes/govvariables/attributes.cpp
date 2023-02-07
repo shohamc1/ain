@@ -883,12 +883,14 @@ Res ATTRIBUTES::RefundFuturesContracts(CCustomCSView &mnview, const uint32_t hei
 
     for (const auto &[key, value] : userFuturesValues) {
         mnview.EraseFuturesUserValues(key);
-        CAccountsHistoryWriter subView(mnview, currentHeight, GetNextAccPosition(), {}, uint8_t(CustomTxType::FutureSwapRefund));
+        CAccountsHistoryWriter subView(
+            mnview, currentHeight, GetNextAccPosition(), {}, uint8_t(CustomTxType::FutureSwapRefund));
 
         Require(subView.SubBalance(*contractAddressValue, value.source));
         subView.Flush();
 
-        CAccountsHistoryWriter addView(mnview, currentHeight, GetNextAccPosition(), {}, uint8_t(CustomTxType::FutureSwapRefund));
+        CAccountsHistoryWriter addView(
+            mnview, currentHeight, GetNextAccPosition(), {}, uint8_t(CustomTxType::FutureSwapRefund));
 
         Require(addView.AddBalance(key.owner, value.source));
         addView.Flush();
@@ -928,14 +930,16 @@ Res ATTRIBUTES::RefundFuturesDUSD(CCustomCSView &mnview, const uint32_t height) 
     for (const auto &[key, amount] : userFuturesValues) {
         mnview.EraseFuturesDUSD(key);
 
-        CAccountsHistoryWriter subView(mnview, height, GetNextAccPosition(), {}, uint8_t(CustomTxType::FutureSwapRefund));
+        CAccountsHistoryWriter subView(
+            mnview, height, GetNextAccPosition(), {}, uint8_t(CustomTxType::FutureSwapRefund));
         auto res = subView.SubBalance(*contractAddressValue, {DCT_ID{}, amount});
         if (!res) {
             return res;
         }
         subView.Flush();
 
-        CAccountsHistoryWriter addView(mnview, height, GetNextAccPosition(), {}, uint8_t(CustomTxType::FutureSwapRefund));
+        CAccountsHistoryWriter addView(
+            mnview, height, GetNextAccPosition(), {}, uint8_t(CustomTxType::FutureSwapRefund));
         res = addView.AddBalance(key.owner, {DCT_ID{}, amount});
         if (!res) {
             return res;
@@ -1397,7 +1401,7 @@ Res ATTRIBUTES::Validate(const CCustomCSView &view) const {
                         return Res::Err("Cannot be set before GrandCentralEpilogueHeight");
                     }
                 } else if (attrV0->typeId == ParamIDs::Feature || attrV0->typeId == ParamIDs::Foundation ||
-                    attrV0->key == DFIPKeys::Members) {
+                           attrV0->key == DFIPKeys::Members) {
                     if (view.GetLastHeight() < Params().GetConsensus().GrandCentralHeight) {
                         return Res::Err("Cannot be set before GrandCentralHeight");
                     }

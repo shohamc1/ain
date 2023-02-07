@@ -7,11 +7,11 @@ const bool DEFAULT_RPC_GOV_NEUTRAL = false;
 
 struct VotingInfo {
     int32_t votesPossible = 0;
-    int32_t votesPresent = 0;
-    int32_t votesYes = 0;
-    int32_t votesNo = 0;
-    int32_t votesNeutral = 0;
-    int32_t votesInvalid = 0;
+    int32_t votesPresent  = 0;
+    int32_t votesYes      = 0;
+    int32_t votesNo       = 0;
+    int32_t votesNeutral  = 0;
+    int32_t votesInvalid  = 0;
 };
 
 UniValue proposalToJSON(const CProposalId &propId,
@@ -99,8 +99,11 @@ UniValue proposalToJSON(const CProposalId &propId,
         ret.pushKV("votesNo", votesNo);
         ret.pushKV("votesNeutral", votesNeutral);
         ret.pushKV("votesInvalid", votesInvalid);
-        ret.pushKV("feeRedistributionPerVote", ValueFromAmount(DivideAmounts(prop.fee - prop.feeBurnAmount, votesPresent * COIN)));
-        ret.pushKV("feeRedistributionTotal", ValueFromAmount(MultiplyAmounts(DivideAmounts(prop.fee - prop.feeBurnAmount, votesPresent * COIN), votesPresent * COIN)));
+        ret.pushKV("feeRedistributionPerVote",
+                   ValueFromAmount(DivideAmounts(prop.fee - prop.feeBurnAmount, votesPresent * COIN)));
+        ret.pushKV("feeRedistributionTotal",
+                   ValueFromAmount(MultiplyAmounts(DivideAmounts(prop.fee - prop.feeBurnAmount, votesPresent * COIN),
+                                                   votesPresent * COIN)));
     }
     ret.pushKV("fee", feeTotalValue);
     // ret.pushKV("feeBurn", feeBurnValue);
@@ -464,10 +467,10 @@ UniValue votegov(const JSONRPCRequest &request) {
 
     RPCTypeCheck(request.params, {UniValue::VSTR, UniValue::VSTR, UniValue::VSTR, UniValue::VARR}, true);
 
-    auto propId = ParseHashV(request.params[0].get_str(), "proposalId");
-    auto mnId   = ParseHashV(request.params[1].get_str(), "masternodeId");
-    auto vote   = CProposalVoteType::VoteNeutral;
-    auto voteStr = ToLower(request.params[2].get_str());
+    auto propId              = ParseHashV(request.params[0].get_str(), "proposalId");
+    auto mnId                = ParseHashV(request.params[1].get_str(), "masternodeId");
+    auto vote                = CProposalVoteType::VoteNeutral;
+    auto voteStr             = ToLower(request.params[2].get_str());
     auto neutralVotesAllowed = gArgs.GetBoolArg("-rpc-governance-accept-neutral", DEFAULT_RPC_GOV_NEUTRAL);
 
     if (voteStr == "no") {
@@ -477,7 +480,9 @@ UniValue votegov(const JSONRPCRequest &request) {
     } else if (neutralVotesAllowed && voteStr != "neutral") {
         throw JSONRPCError(RPC_INVALID_PARAMETER, "decision supports yes/no/neutral");
     } else if (!neutralVotesAllowed) {
-        throw JSONRPCError(RPC_INVALID_PARAMETER, "Decision supports yes or no. Neutral is currently disabled because of issue https://github.com/DeFiCh/ain/issues/1704");
+        throw JSONRPCError(RPC_INVALID_PARAMETER,
+                           "Decision supports yes or no. Neutral is currently disabled because of issue "
+                           "https://github.com/DeFiCh/ain/issues/1704");
     }
 
     int targetHeight;
@@ -613,8 +618,7 @@ UniValue listgovproposalvotes(const JSONRPCRequest &request) {
         if (inputCycle == 0) {
             auto prop = view.GetProposal(propId);
             if (!prop) {
-                throw JSONRPCError(RPC_INVALID_PARAMETER,
-                                   strprintf("Proposal <%s> does not exist", propId.GetHex()));
+                throw JSONRPCError(RPC_INVALID_PARAMETER, strprintf("Proposal <%s> does not exist", propId.GetHex()));
             }
             cycle = prop->cycle;
         } else if (inputCycle > 0) {
@@ -661,8 +665,7 @@ UniValue listgovproposalvotes(const JSONRPCRequest &request) {
         if (inputCycle == 0) {
             auto prop = view.GetProposal(propId);
             if (!prop) {
-                throw JSONRPCError(RPC_INVALID_PARAMETER,
-                                   strprintf("Proposal <%s> does not exist", propId.GetHex()));
+                throw JSONRPCError(RPC_INVALID_PARAMETER, strprintf("Proposal <%s> does not exist", propId.GetHex()));
             }
             cycle = prop->cycle;
         } else if (inputCycle > 0) {
@@ -799,8 +802,7 @@ UniValue getgovproposal(const JSONRPCRequest &request) {
                 } else if (vote == CProposalVoteType::VoteNeutral) {
                     ++info.votesNeutral;
                 }
-            }
-            else
+            } else
                 ++info.votesInvalid;
 
             return true;
@@ -816,12 +818,12 @@ UniValue getgovproposal(const JSONRPCRequest &request) {
 
 template <typename T>
 void iterateProposals(const T &list,
-                  UniValue &ret,
-                  const CProposalId &start,
-                  bool including_start,
-                  size_t limit,
-                  const uint8_t type,
-                  const uint8_t status) {
+                      UniValue &ret,
+                      const CProposalId &start,
+                      bool including_start,
+                      size_t limit,
+                      const uint8_t type,
+                      const uint8_t status) {
     bool pastStart = false;
     for (const auto &prop : list) {
         if (status && status != prop.second.status) {

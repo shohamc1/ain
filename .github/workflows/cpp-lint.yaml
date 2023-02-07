@@ -1,0 +1,61 @@
+name: clang-tidy-review
+
+on:
+  push:
+    tags:
+      - "!v*"
+    branches:
+      - master
+      - staging
+      - develop
+      - ci/*
+      - epic/*
+      - v*
+  pull_request:
+    branches:
+      - master
+      - develop
+      - staging
+      - ci/*
+      - epic/*
+      - v*
+      - "[0-9]+.[0-9]+.x"
+
+jobs:
+  clang_lint:
+    name: Lint
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ ubuntu-18.04 ]
+    env:
+      BUILD_VERSION: latest # Computed
+      GITHUB_PULL_REQUEST: ${{ github.event.number }}
+      PYTHON: 3.6
+      TRAVIS_BUILD_DIR: ${{ github.workspace }}
+      TRAVIS_COMMIT: ${{ github.sha }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install compiledb
+        run: |
+          pip install --upgrade pip setuptools wheel
+          sudo apt-get install -y python3-setuptools
+          pip3 install compiledb
+      - name: Generate compile_commands.json
+        run: |
+          ls
+          sudo apt-get install build-essential libtool autotools-dev automake pkg-config bsdmainutils python3 curl
+          sudo apt-get install libssl-dev libevent-dev libboost-system-dev libboost-filesystem-dev libboost-test-dev
+          ./autogen.sh
+          ./configure --with-incompatible-bdb --disable-wallet
+          compiledb -n make
+      - uses: ZedThree/clang-tidy-review@v0.10.0
+        id: review
+        with:
+          split_workflow: true
+      - uses: actions/upload-artifact@v3
+        with:
+          name: clang-tidy-review
+          path: |
+            clang-tidy-review-output.json
+            clang-tidy-review-metadata.json

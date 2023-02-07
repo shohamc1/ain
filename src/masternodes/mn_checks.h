@@ -348,13 +348,14 @@ struct CGovernanceMessage {
 
     ADD_SERIALIZE_METHODS;
     template <typename Stream, typename Operation>
-    inline void SerializationOp(Stream& s, Operation ser_action) {
+    inline void SerializationOp(Stream &s, Operation ser_action) {
         std::string name;
-        while(!s.empty()) {
+        while (!s.empty()) {
             s >> name;
-            auto& gov = govs[name];
-            auto var = GovVariable::Create(name);
-            if (!var) break;
+            auto &gov = govs[name];
+            auto var  = GovVariable::Create(name);
+            if (!var)
+                break;
             s >> *var;
             gov = std::move(var);
         }
@@ -368,7 +369,7 @@ struct CGovernanceHeightMessage {
 
     ADD_SERIALIZE_METHODS;
     template <typename Stream, typename Operation>
-    inline void SerializationOp(Stream& s, Operation ser_action) {
+    inline void SerializationOp(Stream &s, Operation ser_action) {
         if (!s.empty()) {
             s >> govName;
             if ((govVar = GovVariable::Create(govName))) {
@@ -457,9 +458,9 @@ Res ApplyCustomTx(CCustomCSView &mnview,
                   const CTransaction &tx,
                   const Consensus::Params &consensus,
                   uint32_t height,
-                  uint64_t time            = 0,
-                  uint256 *canSpend        = nullptr,
-                  uint32_t txn             = 0);
+                  uint64_t time     = 0,
+                  uint256 *canSpend = nullptr,
+                  uint32_t txn      = 0);
 Res CustomTxVisit(CCustomCSView &mnview,
                   const CCoinsViewCache &coins,
                   const CTransaction &tx,

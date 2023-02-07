@@ -94,7 +94,7 @@ public:
             } else if (updateType == static_cast<uint8_t>(UpdateMasternodeType::OwnerAddress)) {
                 CTxDestination dest;
                 if (tx.vout.size() >= 2 && ExtractDestination(tx.vout[1].scriptPubKey, dest)) {
-                    rpcInfo.pushKV("ownerAddress",EncodeDestination(dest));
+                    rpcInfo.pushKV("ownerAddress", EncodeDestination(dest));
                 }
             }
             if (updateType == static_cast<uint8_t>(UpdateMasternodeType::SetRewardAddress)) {
@@ -255,7 +255,7 @@ public:
 
     void operator()(const CGovernanceMessage &obj) const {
         for (const auto &gov : obj.govs) {
-            auto& var = gov.second;
+            auto &var = gov.second;
             rpcInfo.pushKV(var->GetName(), var->Export());
         }
     }

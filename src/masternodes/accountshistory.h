@@ -56,23 +56,19 @@ class CAccountsHistoryWriter : public CCustomCSView {
     const uint32_t txn;
     const uint256 txid;
     const uint8_t type;
-    CHistoryWriters& writers;
+    CHistoryWriters &writers;
 
 public:
     uint256 vaultID;
 
-    CAccountsHistoryWriter(CCustomCSView &storage,
-                           uint32_t height,
-                           uint32_t txn,
-                           const uint256 &txid,
-                           uint8_t type);
+    CAccountsHistoryWriter(CCustomCSView &storage, uint32_t height, uint32_t txn, const uint256 &txid, uint8_t type);
     ~CAccountsHistoryWriter() override;
     Res AddBalance(const CScript &owner, CTokenAmount amount) override;
     Res SubBalance(const CScript &owner, CTokenAmount amount) override;
     Res AddVaultCollateral(const CVaultId &vaultId, CTokenAmount amount) override;
     Res SubVaultCollateral(const CVaultId &vaultId, CTokenAmount amount) override;
     bool Flush() override;
-    CHistoryWriters& GetHistoryWriters() override { return writers; }
+    CHistoryWriters &GetHistoryWriters() override { return writers; }
 };
 
 extern std::unique_ptr<CAccountHistoryStorage> paccountHistoryDB;

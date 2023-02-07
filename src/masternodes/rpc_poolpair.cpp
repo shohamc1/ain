@@ -216,13 +216,13 @@ UniValue listpoolpairs(const JSONRPCRequest &request) {
                      RPCArg::Optional::OMITTED,
                      "Maximum number of pools to return, 100 by default"},
                 },
-            },                                                               {"verbose",
+            }, {"verbose",
              RPCArg::Type::BOOL,
              RPCArg::Optional::OMITTED,
              "Flag for verbose list (default = true), otherwise only ids, symbols and names are listed"},
           },
         RPCResult{"{id:{...},...}     (array) Json object with pools information\n"},
-        RPCExamples{HelpExampleCli("listpoolpairs",                                       "'{\"start\":128}' false") +
+        RPCExamples{HelpExampleCli("listpoolpairs", "'{\"start\":128}' false") +
                     HelpExampleRpc("listpoolpairs", "'{\"start\":128}' false")},
     }
         .Check(request);
@@ -290,8 +290,8 @@ UniValue getpoolpair(const JSONRPCRequest &request) {
              RPCArg::Optional::OMITTED,
              "Flag for verbose list (default = true), otherwise limited objects are listed"},
           },
-        RPCResult{"{id:{...}}     (array) Json object with pool information\n"                                               },
-        RPCExamples{HelpExampleCli("getpoolpair",                                                                                                    "GOLD") + HelpExampleRpc("getpoolpair", "GOLD")},
+        RPCResult{"{id:{...}}     (array) Json object with pool information\n"},
+        RPCExamples{HelpExampleCli("getpoolpair", "GOLD") + HelpExampleRpc("getpoolpair", "GOLD")},
     }
         .Check(request);
 
@@ -344,7 +344,7 @@ UniValue addpoolliquidity(const JSONRPCRequest &request) {
                      "If \"from\" obj contain only one amount entry with address-key: \"*\" (star), it's means "
                      "auto-selection accounts from wallet."},
                 },
-            },                                                                                                    {"shareAddress", RPCArg::Type::STR, RPCArg::Optional::NO, "The defi address for crediting tokens."},
+            }, {"shareAddress", RPCArg::Type::STR, RPCArg::Optional::NO, "The defi address for crediting tokens."},
                           {
                 "inputs",
                 RPCArg::Type::ARR,
@@ -362,7 +362,7 @@ UniValue addpoolliquidity(const JSONRPCRequest &request) {
                         },
                     },
                 },
-            },                                     },
+            }, },
         RPCResult{"\"hash\"                  (string) The hex-encoded hash of broadcasted transaction\n"},
         RPCExamples{HelpExampleCli("addpoolliquidity",
                           "'{\"address1\":\"1.0@DFI\",\"address2\":\"1.0@DFI\"}' "
@@ -473,10 +473,10 @@ UniValue removepoolliquidity(const JSONRPCRequest &request) {
                         },
                     },
                 },
-            },},
-        RPCResult{"\"hash\"                  (string) The hex-encoded hash of broadcasted transaction\n"                                                                                      },
-        RPCExamples{HelpExampleCli("removepoolliquidity",                               "from_address 1.0@LpSymbol") +
-                    HelpExampleRpc("removepoolliquidity",       "from_address 1.0@LpSymbol")                                                                                 },
+            }, },
+        RPCResult{"\"hash\"                  (string) The hex-encoded hash of broadcasted transaction\n"},
+        RPCExamples{HelpExampleCli("removepoolliquidity", "from_address 1.0@LpSymbol") +
+                    HelpExampleRpc("removepoolliquidity", "from_address 1.0@LpSymbol")},
     }
         .Check(request);
 
@@ -563,7 +563,7 @@ UniValue createpoolpair(const JSONRPCRequest &request) {
                      RPCArg::Optional::OMITTED,
                      "Pair symbol (unique), no longer than " + std::to_string(CToken::MAX_TOKEN_SYMBOL_LENGTH)},
                 },
-            },                                                                                                    {
+            }, {
                 "inputs",
                 RPCArg::Type::ARR,
                 RPCArg::Optional::OMITTED_NAMED_ARG,
@@ -580,7 +580,7 @@ UniValue createpoolpair(const JSONRPCRequest &request) {
                         },
                     },
                 },
-            },                                                                                                                    },
+            }, },
         RPCResult{"\"hash\"                  (string) The hex-encoded hash of broadcasted transaction\n"},
         RPCExamples{HelpExampleCli("createpoolpair",
                           "'{\"tokenA\":\"MyToken1\","
@@ -666,15 +666,14 @@ UniValue createpoolpair(const JSONRPCRequest &request) {
     poolPairMsg.commission   = commission;
     poolPairMsg.status       = status;
     poolPairMsg.ownerAddress = ownerAddress;
-    poolPairMsg.pairSymbol = pairSymbol;
+    poolPairMsg.pairSymbol   = pairSymbol;
 
     if (targetHeight >= Params().GetConsensus().ClarkeQuayHeight) {
         poolPairMsg.rewards = rewards;
     }
 
     CDataStream metadata(DfTxMarker, SER_NETWORK, PROTOCOL_VERSION);
-    metadata << static_cast<unsigned char>(CustomTxType::CreatePoolPair)
-             << poolPairMsg;
+    metadata << static_cast<unsigned char>(CustomTxType::CreatePoolPair) << poolPairMsg;
 
     CScript scriptMeta;
     scriptMeta << OP_RETURN << ToByteVector(metadata);
@@ -732,7 +731,7 @@ UniValue updatepoolpair(const JSONRPCRequest &request) {
                      RPCArg::Optional::OMITTED,
                      "Token reward to be paid on each block, multiple can be specified."},
                 },
-            },                                                                                                    {
+            }, {
                 "inputs",
                 RPCArg::Type::ARR,
                 RPCArg::Optional::OMITTED_NAMED_ARG,
@@ -749,7 +748,7 @@ UniValue updatepoolpair(const JSONRPCRequest &request) {
                         },
                     },
                 },
-            },                                                                                                                    },
+            }, },
         RPCResult{"\"hash\"                  (string) The hex-encoded hash of broadcasted transaction\n"},
         RPCExamples{HelpExampleCli("updatepoolpair",
                           "'{\"pool\":\"POOL\",\"status\":true,"
@@ -882,7 +881,7 @@ UniValue poolswap(const JSONRPCRequest &request) {
                      "One of the keys may be specified (id/symbol)"},
                     {"maxPrice", RPCArg::Type::NUM, RPCArg::Optional::OMITTED, "Maximum acceptable price"},
                 },
-            },                                                                                                    {
+            }, {
                 "inputs",
                 RPCArg::Type::ARR,
                 RPCArg::Optional::OMITTED_NAMED_ARG,
@@ -899,7 +898,7 @@ UniValue poolswap(const JSONRPCRequest &request) {
                         },
                     },
                 },
-            },                                                                                                              },
+            }, },
         RPCResult{"\"hash\"                  (string) The hex-encoded hash of broadcasted transaction\n"},
         RPCExamples{HelpExampleCli("poolswap",
                           "'{\"from\":\"MyAddress\","
@@ -995,7 +994,7 @@ UniValue compositeswap(const JSONRPCRequest &request) {
                      "One of the keys may be specified (id/symbol)"},
                     {"maxPrice", RPCArg::Type::NUM, RPCArg::Optional::OMITTED, "Maximum acceptable price"},
                 },
-            },                                                                                                    {
+            }, {
                 "inputs",
                 RPCArg::Type::ARR,
                 RPCArg::Optional::OMITTED_NAMED_ARG,
@@ -1012,7 +1011,7 @@ UniValue compositeswap(const JSONRPCRequest &request) {
                         },
                     },
                 },
-            },                                                                                                                   },
+            }, },
         RPCResult{"\"hash\"                  (string) The hex-encoded hash of broadcasted transaction\n"},
         RPCExamples{HelpExampleCli("compositeswap",
                           "'{\"from\":\"MyAddress\","
@@ -1133,7 +1132,7 @@ UniValue testpoolswap(const JSONRPCRequest &request) {
                      "One of the keys may be specified (id/symbol)"},
                     {"maxPrice", RPCArg::Type::NUM, RPCArg::Optional::OMITTED, "Maximum acceptable price"},
                 },
-            },                                     {"path",
+            }, {"path",
              RPCArg::Type::STR,
              RPCArg::Optional::OMITTED,
              "One of auto/direct (default = direct)\n"
@@ -1147,7 +1146,7 @@ UniValue testpoolswap(const JSONRPCRequest &request) {
              "Returns estimated composite path when true (default = false)"},
           },
         RPCResult{
-          "\"amount@tokenId\"    (string) The string with amount result of poolswap in format AMOUNT@TOKENID.\n"                                                 },
+          "\"amount@tokenId\"    (string) The string with amount result of poolswap in format AMOUNT@TOKENID.\n"},
         RPCExamples{HelpExampleCli("testpoolswap",
           "'{\"from\":\"MyAddress\","
                                    "\"tokenFrom\":\"MyToken1\","
@@ -1163,7 +1162,7 @@ UniValue testpoolswap(const JSONRPCRequest &request) {
                                    "\"to\":\"Address\","
                                    "\"tokenTo\":\"Token2\","
                                    "\"maxPrice\":\"0.01\""
-                                   "}'")                                                                                                                         },
+                                   "}'")},
     }
         .Check(request);
 
@@ -1279,7 +1278,7 @@ UniValue listpoolshares(const JSONRPCRequest &request) {
                      RPCArg::Optional::OMITTED,
                      "Maximum number of pools to return, 100 by default"},
                 },
-            },                                                 {"verbose",
+            }, {"verbose",
              RPCArg::Type::BOOL,
              RPCArg::Optional::OMITTED,
              "Flag for verbose list (default = true), otherwise only % are shown."},
@@ -1288,9 +1287,9 @@ UniValue listpoolshares(const JSONRPCRequest &request) {
              RPCArg::Optional::OMITTED,
              "Get shares for all accounts belonging to the wallet (default = false)"},
           },
-        RPCResult{"{id:{...},...}     (array) Json object with pools information\n"                                                             },
+        RPCResult{"{id:{...},...}     (array) Json object with pools information\n"},
         RPCExamples{HelpExampleCli("listpoolshares", "'{\"start\":128}' false false") +
-                    HelpExampleRpc("listpoolshares",                                "'{\"start\":128}' false false") },
+                    HelpExampleRpc("listpoolshares", "'{\"start\":128}' false false")},
     }
         .Check(request);
 
