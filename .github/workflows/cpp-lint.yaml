@@ -1,4 +1,4 @@
-name: C++ Lint
+name: clang-tidy-review
 
 on:
   push:
@@ -35,13 +35,27 @@ jobs:
       TRAVIS_BUILD_DIR: ${{ github.workspace }}
       TRAVIS_COMMIT: ${{ github.sha }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v1
-      - name: Set Env
-        run: set -o errexit; source ./ci/test/00_setup_env.sh
-      - name: Lint
-        uses: DoozyX/clang-format-lint-action@v0.14
+      - uses: actions/checkout@v3
+      - name: Install compiledb
+        run: |
+          pip install --upgrade pip setuptools wheel
+          sudo apt-get install -y python3-setuptools
+          pip3 install compiledb
+      - name: Generate compile_commands.json
+        run: |
+          ls
+          sudo apt-get install build-essential libtool autotools-dev automake pkg-config bsdmainutils python3 curl
+          sudo apt-get install libssl-dev libevent-dev libboost-system-dev libboost-filesystem-dev libboost-test-dev
+          ./autogen.sh
+          ./configure --with-incompatible-bdb --disable-wallet
+          compiledb -n make
+      - uses: ZedThree/clang-tidy-review@v0.10.0
+        id: review
         with:
-          source: './src/masternodes'
-          extensions: 'h,cpp'
-          clangFormatVersion: 14
+          split_workflow: true
+      - uses: actions/upload-artifact@v3
+        with:
+          name: clang-tidy-review
+          path: |
+            clang-tidy-review-output.json
+            clang-tidy-review-metadata.json
